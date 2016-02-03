@@ -71,6 +71,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\DragBehaviorScript.cs" />
     <Compile Include="Assets\MainMenu.cs" />
     <Compile Include="Assets\StartAppButton.cs" />
     <Compile Include="Assets\mainGui.cs" />
