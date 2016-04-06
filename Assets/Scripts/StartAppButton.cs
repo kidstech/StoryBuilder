@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class StartAppButton : MonoBehaviour
 {
     public void OnButtonPress()
     {
-        Application.LoadLevel("main");
+        SceneManager.LoadScene("main");
     }
 
 }
