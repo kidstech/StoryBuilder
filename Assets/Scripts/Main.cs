@@ -8,15 +8,17 @@ using System.IO;
 using System.Diagnostics;
 using System.Text;
 using System.Collections.Generic;
+using System.Collections;
 
 public class Main : MonoBehaviour
 {
     private MongoClient client;
     private MongoServer server;
     private MongoDatabase db;
-    private MongoCollection<Word> allWords;
-    private MongoCollection<ContextPack> allContextPacks;
-    private MongoCollection<WordPack> allWordPacks;
+    private MongoCollection<BsonDocument> allWords;
+    private MongoCollection<BsonDocument> allContextPacks;
+    private MongoCollection<BsonDocument> allWordPacks;
+    public ArrayList alltiles = new ArrayList(500);
 
     protected void Start()
     {
@@ -24,47 +26,40 @@ public class Main : MonoBehaviour
         server = client.GetServer();
         server.Connect();
         db = server.GetDatabase("wordriver");
-        allContextPacks = db.GetCollection<ContextPack>("contextpacks");
-        allWords = db.GetCollection<Word>("words");
-        allWordPacks = db.GetCollection<WordPack>("wordpacks");
+        allContextPacks = db.GetCollection<BsonDocument>("contextpacks");
+        allWords = db.GetCollection<BsonDocument>("words");
+        allWordPacks = db.GetCollection<BsonDocument>("wordpacks");
 
-        //string usable = allWords.FindAll().ToJson();
-        //UnityEngine.Debug.Log(usable);
+        foreach (BsonDocument item in allWords.FindAll())
+        {
+            BsonElement name = item.GetElement("name");
+            string wordValue = name.Value.ToString();
+            alltiles.Add(wordValue);
+        }
         Readable.Speak("Welcome to Story Builder!");
     }
 
-    //void OnGUI()
-    //{
-    //    GUIStyle style = new GUIStyle();
-    //    style.fontSize = 20;
+    void OnGUI()
+    {
+        int horizontalOffset = 0;
+        int verticalOffset = 0;
 
-    //    //foreach (Word tile in allWords)
-    //    //{
-
-    //    //}
-    //    //{
-
-    //    IMongoQuery query = "";
-    //    GUI.Label(new Rect(Screen.width / 2 - 50, Screen.height / 2 - 100, 100, 60), allWords.FindOne(query).name.ToString(), style);
-    //    //}
-    //}
-
-        //    int horizontalOffset = 0;
-        //    int verticalOffset = 0;
-        //    foreach (string user in Users)
-        //    {
-        //        if(Screen.width <= (horizontalOffset * 210) + 280)
-        //        {
-        //            verticalOffset++;
-        //            horizontalOffset = 0;
-        //        }
-        //        if (GUI.Button(new Rect(70 + (horizontalOffset * 210), Screen.height / 2 + (verticalOffset * 70), 200, 60), user))
-        //        {
-        //            currentUser = user;
-        //            Application.LoadLevel("main");
-        //        }
-        //        horizontalOffset++;
-        //    }
-        //}
-
+        for (var i = 0; i < alltiles.Count; i++)
+        {
+            if (Screen.width <= (horizontalOffset * 90) + 140)
+            {
+                verticalOffset++;
+                horizontalOffset = 0;
+            }
+            GUI.Box(new Rect(70 + (horizontalOffset * 90), Screen.height / 3 + (verticalOffset * 40), 85, 30), alltiles[i].ToString());
+            horizontalOffset++;
+        }
     }
+}
+
+
+
+
+          
+
+        
