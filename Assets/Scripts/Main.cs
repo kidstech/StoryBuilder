@@ -34,9 +34,10 @@ public class Main : MonoBehaviour
         {
             BsonElement name = item.GetElement("name");
             string wordValue = name.Value.ToString();
-            alltiles.Add(wordValue);
+            Tile tile = new Tile(wordValue);
+            alltiles.Add(tile);
         }
-        Readable.Speak("Welcome to Story Builder!");
+        Readable.Speak("Welcome to Story Builder Spencer! I think you are awesome.");
     }
 
     void OnGUI()
