@@ -34,10 +34,11 @@ public class Main : MonoBehaviour
         {
             BsonElement name = item.GetElement("name");
             string wordValue = name.Value.ToString();
-            Tile tile = new Tile(wordValue);
+            // Tile deep down is a monobehavior, so it isn't supposed to use new... not sure how to make one then.
+            Tile tile = new Tile(wordValue, 200, 200);
             alltiles.Add(tile);
         }
-        Readable.Speak("Welcome to Story Builder Spencer! I think you are awesome.");
+        Readable.Speak("Welcome to Story Builder! I think you are awesome.");
     }
 
     void OnGUI()

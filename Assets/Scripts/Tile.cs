@@ -3,14 +3,9 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
-public class Tile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class Tile : UnityEngine.UI.Image, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public string label;
-    public int xPos;
-    public int yPos;
-    public int width;
-    public int height;
-    public Color color;
 
     public void OnBeginDrag()
     {
@@ -18,16 +13,11 @@ public class Tile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         Debug.Log("OnBeginDrag of a tile");
     }
 
-    public Tile(string theLabel)
+    public Tile(string theLabel, float w, float h)
     {
         label = theLabel;
-        // I had the constructor have int x, int y, int w, int h, 
-        //GUI.Box(new Rect(70 + (horizontalOffset * 90), Screen.height / 3 + (verticalOffset * 40), 85, 30), label);
-    }
-
-    void Start()
-    {
-        label = "Spencer";
+        // Still not sure what I'm doing here, but I'm trying to give the tile some dimensions and something on them... this is not quite there
+        this.sprite = Sprite.Create(null, new Rect(200, 200, w, h), new Vector2(0,0));
     }
 
     override public string ToString()
