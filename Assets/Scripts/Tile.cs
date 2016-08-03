@@ -3,9 +3,15 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
-public class Tile : UnityEngine.UI.Image, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class Tile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public string label;
+    //public GUIText text;
+    public float width;
+    public float height;
+
+    public static float TILE_WIDTH = 150;
+    public static float TILE_HEIGHT = 50;
 
     public void OnBeginDrag()
     {
@@ -13,11 +19,17 @@ public class Tile : UnityEngine.UI.Image, IBeginDragHandler, IDragHandler, IEndD
         Debug.Log("OnBeginDrag of a tile");
     }
 
-    public Tile(string theLabel, float w, float h)
+    public static Object prefabTile = Resources.Load("BlueTile");
+    public static Tile Create(string theLabel)
     {
-        label = theLabel;
+        GameObject newtile = Instantiate(prefabTile) as GameObject;
+        Tile tile = newtile.GetComponent<Tile>();
+        tile.label = theLabel;
+        tile.width = TILE_WIDTH;
+        tile.height = TILE_HEIGHT;
+
         // Still not sure what I'm doing here, but I'm trying to give the tile some dimensions and something on them... this is not quite there
-        this.sprite = Sprite.Create(null, new Rect(200, 200, w, h), new Vector2(0,0));
+        return tile;
     }
 
     override public string ToString()
@@ -27,6 +39,7 @@ public class Tile : UnityEngine.UI.Image, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        Readable.Speak(this.label);
     }
 
     public void OnDrag(PointerEventData eventData)
