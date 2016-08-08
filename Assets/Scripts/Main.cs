@@ -9,7 +9,10 @@ using System.Diagnostics;
 using System.Text;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.UI;
 
+
+[System.Serializable]
 public class Main : MonoBehaviour
 {
     private static float BUTTON_WIDTH = 85;
@@ -21,6 +24,10 @@ public class Main : MonoBehaviour
     private MongoCollection<BsonDocument> allContextPacks;
     private MongoCollection<BsonDocument> allWordPacks;
     public List<String> words = new List<String>();
+    //public List<GameObject> Tiles = new List<GameObject>();
+    //public int x = 366;
+    //public int y = 383;
+    public GameObject tiles;
 
     protected void Start()
     {
@@ -31,7 +38,7 @@ public class Main : MonoBehaviour
         allContextPacks = db.GetCollection<BsonDocument>("contextpacks");
         allWords = db.GetCollection<BsonDocument>("words");
         allWordPacks = db.GetCollection<BsonDocument>("wordpacks");
-
+        
         foreach (BsonDocument item in allWords.FindAll())
         {
             BsonElement name = item.GetElement("name");
@@ -60,9 +67,15 @@ public class Main : MonoBehaviour
             {
                 //As far as I can tell, this doens't yet make a tile. I'm not sure how to make it show up.
                 Tile tile = Tile.Create(word);
-                tile.GetComponent<RectTransform>().position = new Vector3(500, 500, 0);
+
+                //this line makes the tile show up
+                tile.transform.parent = gameObject.transform;
+                
+                tile.GetComponent<RectTransform>().localPosition = new Vector3(366, 274, 0);
                 //the next line of code makes the word of the button show up in the console
-               
+
+                //this line of code trys to actually name the tile that appears 
+                tiles.transform.GetChild(0).GetComponent<Text>().text = tiles.GetComponent<Tile>().label;
                 print(word);
             }
             horizontalOffset++;
