@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Tile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -10,8 +11,8 @@ public class Tile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public float width;
     public float height;
 
-    public static float TILE_WIDTH = 150;
-    public static float TILE_HEIGHT = 50;
+    public static float TILE_WIDTH = 350;
+    public static float TILE_HEIGHT = 150;
 
     public void OnBeginDrag()
     {
@@ -19,16 +20,19 @@ public class Tile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         Debug.Log("OnBeginDrag of a tile");
     }
 
-    public static Object prefabTile = Resources.Load("BlueTile");
+ 
     public static Tile Create(string theLabel)
     {
+        Object prefabTile = Resources.Load("BlueTile");
         GameObject newtile = Instantiate(prefabTile) as GameObject;
         Tile tile = newtile.GetComponent<Tile>();
+        newtile.transform.GetChild(1).GetComponent<Text>().text = theLabel;
+        //newtile.transform.GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(TILE_WIDTH, TILE_HEIGHT);
         tile.label = theLabel;
         tile.width = TILE_WIDTH;
         tile.height = TILE_HEIGHT;
+       
 
-        // Still not sure what I'm doing here, but I'm trying to give the tile some dimensions and something on them... this is not quite there
         return tile;
     }
 

@@ -24,10 +24,6 @@ public class Main : MonoBehaviour
     private MongoCollection<BsonDocument> allContextPacks;
     private MongoCollection<BsonDocument> allWordPacks;
     public List<String> words = new List<String>();
-    //public List<GameObject> Tiles = new List<GameObject>();
-    //public int x = 366;
-    //public int y = 383;
-    public GameObject tiles;
 
     protected void Start()
     {
@@ -65,18 +61,13 @@ public class Main : MonoBehaviour
             string word = words[i];
             if (GUI.Button(new Rect(10 + (horizontalOffset * Main.BUTTON_WIDTH), Screen.height / 3 + (verticalOffset * Main.BUTTON_HEIGHT), 85, 30), word))
             {
-                //As far as I can tell, this doens't yet make a tile. I'm not sure how to make it show up.
                 Tile tile = Tile.Create(word);
 
                 //this line makes the tile show up
                 tile.transform.parent = gameObject.transform;
                 
                 tile.GetComponent<RectTransform>().localPosition = new Vector3(366, 274, 0);
-                //the next line of code makes the word of the button show up in the console
 
-                //this line of code trys to actually name the tile that appears 
-                tiles.transform.GetChild(0).GetComponent<Text>().text = tiles.GetComponent<Tile>().label;
-                print(word);
             }
             horizontalOffset++;
         }
